@@ -1,0 +1,128 @@
+package {{ package }};
+
+import com.kauto.core.common.exception.BusinessException;
+import com.kauto.core.common.utils.EmptyUtils;
+import com.kauto.core.common.utils.FileUtils;
+import com.kauto.core.common.utils.json.JsonHelper;
+import com.kauto.core.common.utils.json.JsonReturnTemplate;
+import com.kauto.core.common.web.controller.BaseController;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import {{ service_package }};
+import {{ entity_package }};
+
+import javax.annotation.Resource;
+import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * @author admin
+ * @version V1.0
+ * @Description 控制器
+ * @date {{ date }}
+ * @since V1.0
+ */
+@RestController
+@RequestMapping("/sales/{{ small_class_name }}")
+public class {{ class_name }}Controller extends BaseController {
+
+    private static Logger logger = LoggerFactory.getLogger({{ class_name }}Controller.class.getName());
+
+    @Resource
+    private {{ class_name }}Service {{ small_class_name }}Service;
+
+
+    /**
+	 * @Description: 新增
+	 * @since V1.0
+	 * @param entity
+	 */
+	@RequestMapping(value = "/save" )
+	@ResponseBody
+    public Object save(@RequestBody @Valid {{ class_name }} {{ small_class_name }},BindingResult result){
+		checkValidator(result);//校验确认
+		{{ small_class_name }}Service.save({{ small_class_name }});
+		JsonReturnTemplate josn = new JsonReturnTemplate(JsonReturnTemplate.RETURN_STATUS_SUCCESS);
+		josn.setData({{ small_class_name }});
+		return josn;
+	 }
+
+    /**
+	 * @Description: 修改
+	 * @since V1.0
+	 * @param entity
+	 */
+	@RequestMapping(value = "/update" )
+	@ResponseBody
+    public Object update(@RequestBody @Valid {{ class_name }} {{ small_class_name }},BindingResult result){
+		checkValidator(result);//校验确认
+		{{ small_class_name }}Service.update({{ small_class_name }});
+		JsonReturnTemplate josn = new JsonReturnTemplate(JsonReturnTemplate.RETURN_STATUS_SUCCESS);
+		josn.setData({{ small_class_name }});
+		return josn;
+    }
+
+    /**
+	 * @Description: 删除
+	 * @since V1.0
+	 * @param entity
+	 */
+	@RequestMapping(value = "/delete" )
+	@ResponseBody
+    public Object delete(@RequestBody List<String> ids){
+		{{ small_class_name }}Service.delete(ids);
+		JsonReturnTemplate josn = new JsonReturnTemplate(JsonReturnTemplate.RETURN_STATUS_SUCCESS);
+		return josn;
+    }
+
+    /**
+	 * @Description: 查询列表
+	 * @since V1.0
+	 * @param entity
+	 */
+	@RequestMapping(value = "/list" )
+	@ResponseBody
+    public Object list(@RequestBody @Valid {{ class_name }} {{ small_class_name }},BindingResult result){
+		List<{{ class_name }}> list = {{ small_class_name }}Service.list({{ small_class_name }});
+		JsonReturnTemplate josn = new JsonReturnTemplate(JsonReturnTemplate.RETURN_STATUS_SUCCESS);
+        josn.setData(list);
+		return josn;
+    }
+
+    /**
+	 * @Description: 分页查询列表
+	 * @since V1.0
+	 * @param entity
+	 */
+	@RequestMapping(value = "/page" )
+	@ResponseBody
+    public Object page(@RequestBody @Valid {{ class_name }} {{ small_class_name }},BindingResult result){
+		List<{{ class_name }}> list = {{ small_class_name }}Service.page({{ small_class_name }});
+		JsonReturnTemplate josn = new JsonReturnTemplate(JsonReturnTemplate.RETURN_STATUS_SUCCESS);
+        josn.setData(list);
+		return josn;
+    }
+
+
+    /**
+	 * @Description: 通过ID查询
+	 * @since V1.0
+	 * @param id
+	 */
+	@RequestMapping(value = "/findById" )
+	@ResponseBody
+    public Object findById(@RequestParam String id){
+		JsonReturnTemplate josn = new JsonReturnTemplate(JsonReturnTemplate.RETURN_STATUS_SUCCESS);
+        josn.setData({{ small_class_name }}Service.findById(id));
+		return josn;
+    }
+
+
+}

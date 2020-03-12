@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="/createClass" method="post" datatype="application/json">
+        <div style="width: 100%; min-height: 200px; border: 0px silver solid;float: left;">
+            <div style="width: 49.5%;  float: left; ">
+                <h3>添加实体类</h3>
+
+                <textarea id="fields" name="fields" style="width: 99%; height: 400px;">
+{
+    "table": "cc_user",
+    "class": "User",
+    "type": "mongodb",
+    "package": "com.demo.user",
+    "column": {
+        "age": "int",
+        "id": "String",
+        "address": "String",
+        "name": "String"
+    }
+}
+                </textarea>
+            </div>
+
+            <div style="width: 49.5%; height: 170px; float:right;">
+                <h3>添加业务类</h3>
+                <hr/>
+                <input type="checkbox" value="1" name="controller" id="controller"/> Controller<br/>
+                <input type="checkbox" value="1" name="service" id="service"/> Service<br/>
+                <input type="checkbox" value="1" name="dao" id="dao"/> Dao<br/>
+                <input type="checkbox" value="1" name="entity" id="entity"/> Entity<br/>
+                <br>
+
+                <h3>添加http方法</h3>
+                <hr/>
+                <input type="checkbox" value="" name="page" id="page"/> page<br/>
+                <input type="checkbox" value="" name="list" id="list"/> list<br/>
+                <input type="checkbox" value="" name="save" id="save"/> save<br/>
+                <input type="checkbox" value="" name="update" id="update"/> update<br/>
+                <input type="checkbox" value="" name="delete" id="delete"/> delete<br/>
+                <input type="checkbox" value="" name="findById" id="findById"/> findById<br/>
+                <br>
+            </div>
+        </div>
+        <hr>
+        <p>
+            <input type="submit" id="commit" name="commit" value=" 提  交 " style="margin-left: 47%">
+        </p>
+    </form>
+    {% if msg %}
+        <strong>msg:</strong> {{ msg }}
+    {% endif %}
+    {% if file_name %}
+        <strong>下载文件:</strong> <a href="/download/{{ file_name }}" >{{ file_name }}</a>
+    {% endif %}
+
+</body>
+</html>

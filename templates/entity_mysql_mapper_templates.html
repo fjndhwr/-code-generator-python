@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="{{ entity_package }}Mapper">
+
+    <resultMap id="BaseResultMap" type="{{ entity_package }}">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="age" jdbcType="BIGINT" property="age"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id as "id",
+        name as "name" ,
+        age as "age" ,
+        address as "address"
+    </sql>
+
+    <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        {{ table_name }}
+        where
+        id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="list" parameterType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        {{ table_name }}
+        <where>
+            <if test="id!=null and id!=''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="id!=null and id!=''">
+                and name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="id!=null and id!=''">
+                and age = #{age,jdbcType=VARCHAR}
+            </if>
+            <if test="id!=null and id!=''">
+                and address = #{address,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from
+        {{ table_name }}
+        where
+        id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="{{ entity_package }}"
+            useGeneratedKeys="true"
+            keyColumn="id"
+            keyProperty="id">
+        insert into
+        {{ table_name }} (
+        id ,
+        name ,
+        age ,
+        address ,
+        ) values (
+        #{ id ,jdbcType= VARCHAR},
+        #{ name ,jdbcType= VARCHAR} ,
+        #{ age ,jdbcType= VARCHAR} ,
+        #{ address ,jdbcType= VARCHAR}
+        )
+    </insert>
+
+    <update id="update" parameterType="{{ entity_package }}">
+        update
+        {{ table_name }}
+        <set>
+            <if test=" id != null">
+                id = #{ id ,jdbcType= VARCHAR} ,
+            </if>
+            <if test=" name != null">
+                name = #{ name ,jdbcType= VARCHAR} ,
+            </if>
+            <if test=" age != null">
+                age = #{ age ,jdbcType= VARCHAR} ,
+            </if>
+            <if test=" address != null">
+                address = #{ address ,jdbcType= VARCHAR} ,
+            </if>
+        </set>
+        where
+        id = #{id,jdbcType=VARCHAR}
+    </update>
+
+</mapper>
