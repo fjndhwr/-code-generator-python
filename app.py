@@ -2,14 +2,15 @@ import os
 import json
 import time
 import tarfile
-from manager import create_app
-from config import DevelopConfig
 from flask import Flask, render_template, send_from_directory, request
-app = create_app(DevelopConfig)
+import connectDB
+db = connectDB.connect_db()
+app=Flask(__name__)
 
 
 @app.route('/index')
 def index():
+    get_column();
     return render_template('create_class.html')
 
 
@@ -145,21 +146,20 @@ def make_targz():
     return file_name
 
 
-# def connect_db():
-#     conn = MySQLdb.connect(db='new_skin_wechat_service_test', host='192.168.8.90', user='root', passwd='XMlianluoyimysql!!!', port=32098, charset='utf8')
-#     cursor = conn.cursor()
-#     sql = """INSERT INTO wechat_vip_group()
-#              VALUES ()"""
-#     try:
-#         # 执行sql语句
-#         cursor.execute(sql)
-#         # 提交到数据库执行
-#         conn.commit()
-#     except:
-#         # Rollback in case there is any error
-#         conn.rollback()
+def get_column():
+    cursor = db.cursor()
+    sql = """SHOW COLUMNS FROM address"""
+    try:
+        # 执行sql语句
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        for row in results:
+            print(row[0])
+    except:
+        print("Error: unable to fecth data")
+        # Rollback in case there is any error
+        #db.rollback()
 
 
 if __name__ == '__main__':
-    # connect_db()
     app.run()
