@@ -2,6 +2,8 @@ import os
 import json
 import time
 import tarfile
+import MySQLdb
+from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, send_from_directory, request
 
 app = Flask(__name__)
@@ -144,5 +146,21 @@ def make_targz():
     return file_name
 
 
+def connect_db():
+    db = MySQLdb.connect("mysql://192.168.8.90:32098", "root", "XMlianluoyimysql!!!", "new_skin_wechat_service_test", charset='utf8')
+    cursor = db.cursor()
+    sql = """INSERT INTO depart(parent_id , name)
+             VALUES (0, 'Mohan')"""
+    try:
+        # 执行sql语句
+        cursor.execute(sql)
+        # 提交到数据库执行
+        db.commit()
+    except:
+        # Rollback in case there is any error
+        db.rollback()
+
+
 if __name__ == '__main__':
+    connect_db()
     app.run()
