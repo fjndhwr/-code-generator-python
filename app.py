@@ -2,7 +2,11 @@ import os
 import json
 import time
 import tarfile
+from manager import create_app
+from config import DevelopConfig
 from flask import Flask, render_template, send_from_directory, request
+app = create_app(DevelopConfig)
+
 
 @app.route('/index')
 def index():
