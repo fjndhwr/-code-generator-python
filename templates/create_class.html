@@ -8,22 +8,25 @@
     <form action="/createClass" method="post" datatype="application/json">
         <div style="width: 100%; min-height: 200px; border: 0px silver solid;float: left;">
             <div style="width: 49.5%;  float: left; ">
-                <h3>添加实体类</h3>
+                <h3>选择表格</h3>
 
-                <textarea id="fields" name="fields" style="width: 99%; height: 400px;">
-{
-    "table": "cc_user",
-    "class": "User",
-    "type": "mongodb",
-    "package": "com.demo.user",
-    "column": {
-        "age": "int",
-        "id": "String",
-        "address": "String",
-        "name": "String"
-    }
-}
-                </textarea>
+{#                <textarea id="fields" name="fields" style="width: 99%; height: 400px;">#}
+{#{#}
+{#    "table": "cc_user",#}
+{#    "class": "User",#}
+{#    "type": "mongodb",#}
+{#    "package": "com.demo.user",#}
+{#    "column": {#}
+{#        "age": "int",#}
+{#        "id": "String",#}
+{#        "address": "String",#}
+{#        "name": "String"#}
+{#    }#}
+{#}#}
+                 {% for table in tableList %}
+                     <input type="radio" value="{{ table }}" name="table" id="table"/>  {{ table }}<br/>
+                 {% endfor %}
+{#                </textarea>#}
             </div>
 
             <div style="width: 49.5%; height: 170px; float:right;">
@@ -33,6 +36,8 @@
                 <input type="checkbox" value="1" name="service" id="service"/> Service<br/>
                 <input type="checkbox" value="1" name="dao" id="dao"/> Dao<br/>
                 <input type="checkbox" value="1" name="entity" id="entity"/> Entity<br/>
+                <input type="checkbox" value="1" name="entity" id="VO"/> VO<br/>
+                <input type="checkbox" value="1" name="entity" id="DTO"/> DTO<br/>
                 <br>
 
                 <h3>添加http方法</h3>
@@ -48,7 +53,7 @@
         </div>
         <hr>
         <p>
-            <input type="submit" id="commit" name="commit" value=" 提  交 " style="margin-left: 47%">
+            <input type="submit" id="commit" name="commit" value=" 提  交 " style="margin-left: 30%">
         </p>
     </form>
     {% if msg %}

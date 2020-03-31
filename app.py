@@ -9,12 +9,13 @@ import discern_type
 
 db = connectDB.connect_db()
 app = Flask(__name__)
+cursor = db.cursor()
+table_list = connectDB.get_table_list_map()
 
 
 @app.route('/index')
 def index():
-    get_column("wechat_vip_group")
-    return render_template('create_class.html')
+    return render_template('create_class.html', **table_list)
 
 
 @app.route("/download/<filename>", methods=['GET'])
@@ -29,41 +30,39 @@ def downloader(filename):
 def create_class():
     file_name = msg = None
     # {'column': {'age': 'int', 'id': 'String', 'address': 'String', 'name': 'String'}, 'table': 'cc_user'}
-    fields = request.form['fields']
-    if len(fields) <= 0:
+    table = request.form['table']
+    if len(table) <= 0:
         msg = 'request data json is null!'
-    print(fields)
-    j = json.loads(fields, encoding='utf-8')
-    class_name = j['class']
-    package = j['package']
-    db_type = j['type']
-    if len(class_name) <= 0:
+    column = get_column(table)
+    package = "com.hwr." + table  # 包名
+    db_type = '1'
+    if len(table) <= 0:
         msg = 'className is null!'
     if len(package) <= 0:
         msg = 'package is null'
     if len(db_type) <= 0:
         msg = 'type is null'
-    print(class_name + '\n' + package)
+    print(table + '\n' + package)
     if not msg or len(msg) <= 0:
         d = time.strftime("%Y-%m-%d", time.localtime())
         entity = request.form.get('entity')
         if entity and len(entity) >= 1:
             print('--- create entity class')
-            create_entity(class_name, package, j['column'], d)
+            create_entity(table, package, column, d)
         dao = request.form.get('dao')
         if dao and len(dao) >= 1:
             print('--- create dao class')
-            create_dao(class_name, package, d)
+            create_dao(table, package, d)
         service = request.form.get('service')
         if service and len(service) >= 1:
             print('--- create service class')
-            create_service(class_name, package, d)
+            create_service(table, package, d)
         controller = request.form.get('controller')
         if controller and len(controller) >= 1:
             print('--- create controller class')
-            create_controller(class_name, package, d)
-            file_name = make_targz()
-    return render_template('create_class.html', msg=msg, file_name=file_name)
+            create_controller(table, package, d)
+        file_name = make_targz()
+    return render_template('create_class.html', msg=msg, file_name=file_name, **table_list)
 
 
 # 创建entity
@@ -144,11 +143,9 @@ def make_targz():
 
 
 def get_column(table_name):
-    package = "com.hwr." + table_name  # 包名
     date = time.strftime("%Y-%m-%d", time.localtime())  # 时间
     columus = {}  # 列
 
-    cursor = db.cursor()
     sql = """SELECT
                 COLUMN_NAME,
                 DATA_TYPE,
@@ -156,8 +153,7 @@ def get_column(table_name):
             FROM
                 information_schema.COLUMNS 
             WHERE
-                TABLE_SCHEMA = 'wechat_service_test' 
-                AND TABLE_NAME = """ + "'" + table_name + "'"
+                TABLE_SCHEMA = """ + "'" + connectDB.date_name + "' " + """AND TABLE_NAME = """ + "'" + table_name + "'"
     try:
         # 执行sql语句获取队列类型及备注
         cursor.execute(sql)
@@ -165,8 +161,8 @@ def get_column(table_name):
         for row in results:
             tuple = (discern_type.discern_type(row[1]), row[2])
             columus[row[0]] = tuple
-        print(columus)
-        create_entity(table_name, package, columus, date)
+        return columus
+        # create_entity(table_name, package, columus, date)
     except Exception:
         print('traceback.format_exc():\n%s' % traceback.format_exc())
 
