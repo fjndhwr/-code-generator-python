@@ -2,15 +2,18 @@ import os
 import json
 import time
 import tarfile
+import traceback
 from flask import Flask, render_template, send_from_directory, request
 import connectDB
+import discern_type
+
 db = connectDB.connect_db()
-app=Flask(__name__)
+app = Flask(__name__)
 
 
 @app.route('/index')
 def index():
-    get_column();
+    get_column("wechat_vip_group")
     return render_template('create_class.html')
 
 
@@ -28,13 +31,13 @@ def create_class():
     # {'column': {'age': 'int', 'id': 'String', 'address': 'String', 'name': 'String'}, 'table': 'cc_user'}
     fields = request.form['fields']
     if len(fields) <= 0:
-        msg='request data json is null!'
+        msg = 'request data json is null!'
     print(fields)
     j = json.loads(fields, encoding='utf-8')
     class_name = j['class']
     package = j['package']
     db_type = j['type']
-    if len(class_name) <= 0 :
+    if len(class_name) <= 0:
         msg = 'className is null!'
     if len(package) <= 0:
         msg = 'package is null'
@@ -46,7 +49,7 @@ def create_class():
         entity = request.form.get('entity')
         if entity and len(entity) >= 1:
             print('--- create entity class')
-            create_entity(class_name, package, j['table'], j['column'], db_type, d)
+            create_entity(class_name, package, j['column'], d)
         dao = request.form.get('dao')
         if dao and len(dao) >= 1:
             print('--- create dao class')
@@ -64,25 +67,19 @@ def create_class():
 
 
 # 创建entity
-def create_entity(class_name, package, table_name, columns, db_type, date):
+def create_entity(class_name, package, columns, date):
     propertys = ''
     if columns:
         for key in columns.keys():
-            propertys += 'private %s %s;' % (columns[key], key) + '\n\n'
+            propertys += '/** \n *' + columns[key][1] + ' \n */ \n'
+            propertys += 'private %s %s;' % (columns[key][0], key) + '\n\n'
     c = {'package': package + '.entity',
          'entity_package': package + '.entity.' + class_name,
          'class_name': class_name,
-         'table_name': table_name,
          'propertys': propertys,
          'date': date}
-    if db_type == 'mongodb':
-        s = render_template('entity_mongodb_templates.html', **c)
-        create_java_file(class_name, package + '.entity', s)
-    elif db_type == 'mysql':
-        s = render_template('entity_mysql_templates.html', **c)
-        create_java_file(class_name, package + '.entity', s)
-        s = render_template('entity_mysql_mapper_templates.html', **c)
-        create_java_file(class_name, package + '.entity', s, 'Mapper.xml')
+    s = render_template('entity_mongodb_templates.html', **c)
+    create_java_file(class_name, package + '.entity', s)
 
 
 # 创建Dao
@@ -130,7 +127,7 @@ def small_str(s):
 
 # 创建java文件
 def create_java_file(class_name, package, text, suffix='.java'):
-    dirs = 'D:/temp/python/'+package.replace('.', '/')+'/'
+    dirs = 'D:/temp/python/' + package.replace('.', '/') + '/'
     if not os.path.exists(dirs):
         os.makedirs(dirs, 0o777)
     fd = os.open(dirs + class_name + suffix, os.O_WRONLY | os.O_CREAT)
@@ -146,19 +143,32 @@ def make_targz():
     return file_name
 
 
-def get_column():
+def get_column(table_name):
+    package = "com.hwr." + table_name  # 包名
+    date = time.strftime("%Y-%m-%d", time.localtime())  # 时间
+    columus = {}  # 列
+
     cursor = db.cursor()
-    sql = """SHOW COLUMNS FROM address"""
+    sql = """SELECT
+                COLUMN_NAME,
+                DATA_TYPE,
+                COLUMN_COMMENT 
+            FROM
+                information_schema.COLUMNS 
+            WHERE
+                TABLE_SCHEMA = 'wechat_service_test' 
+                AND TABLE_NAME = """ + "'" + table_name + "'"
     try:
-        # 执行sql语句
+        # 执行sql语句获取队列类型及备注
         cursor.execute(sql)
         results = cursor.fetchall()
         for row in results:
-            print(row[0])
-    except:
-        print("Error: unable to fecth data")
-        # Rollback in case there is any error
-        #db.rollback()
+            tuple = (discern_type.discern_type(row[1]), row[2])
+            columus[row[0]] = tuple
+        print(columus)
+        create_entity(table_name, package, columus, date)
+    except Exception:
+        print('traceback.format_exc():\n%s' % traceback.format_exc())
 
 
 if __name__ == '__main__':
