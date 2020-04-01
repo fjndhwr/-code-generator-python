@@ -4,26 +4,27 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<script language="JScript" >
+function change(tableList) {
+    var html = ""
+    for (var i = 0; i < tableList.length; i++) {
+        html += '<input type="radio" value="'+ tableList[i] +'" name="table" id="table"/> '+ tableList[i] +'<br/>\n'
+    }
+    //var tableList = tableListMap.get(index);
+    //alert(tableList)
+    var tableListDoc = document.getElementById("tableList")
+    tableListDoc.innerHTML = html
+}
+</script>
+
 <body>
     <form action="/createClass" method="post" datatype="application/json">
         <div style="width: 100%; min-height: 200px; border: 0px silver solid;float: left;">
-            <div style="width: 49.5%;  float: left; ">
-                <h3>添加实体类</h3>
-
-                <textarea id="fields" name="fields" style="width: 99%; height: 400px;">
-{
-    "table": "cc_user",
-    "class": "User",
-    "type": "mongodb",
-    "package": "com.demo.user",
-    "column": {
-        "age": "int",
-        "id": "String",
-        "address": "String",
-        "name": "String"
-    }
-}
-                </textarea>
+            <h3>选择表格</h3>
+            <div style="width: 49.5%;  float: left; " id="tableList">
+                 {% for table in tableList[0] %}
+                     <input type="radio" value="{{ table }}" name="table" id="table"/>  {{ table }}<br/>
+                 {% endfor %}
             </div>
 
             <div style="width: 49.5%; height: 170px; float:right;">
@@ -33,6 +34,8 @@
                 <input type="checkbox" value="1" name="service" id="service"/> Service<br/>
                 <input type="checkbox" value="1" name="dao" id="dao"/> Dao<br/>
                 <input type="checkbox" value="1" name="entity" id="entity"/> Entity<br/>
+                <input type="checkbox" value="1" name="entity" id="VO"/> VO<br/>
+                <input type="checkbox" value="1" name="entity" id="DTO"/> DTO<br/>
                 <br>
 
                 <h3>添加http方法</h3>
@@ -48,7 +51,12 @@
         </div>
         <hr>
         <p>
-            <input type="submit" id="commit" name="commit" value=" 提  交 " style="margin-left: 47%">
+        <div style="margin-left: 40%" >
+              {% for index in len  %}
+                     <button name="{{ index + 1 }}" value="{{ index + 1 }}" type="button" onclick="change({{ tableList[index] }})">{{ index + 1 }}</button>
+              {% endfor %}
+        </div>
+           <br /> <input type="submit" id="commit" name="commit" value=" 提  交 " style="margin-left: 48%">
         </p>
     </form>
     {% if msg %}
