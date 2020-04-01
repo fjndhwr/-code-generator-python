@@ -50,6 +50,14 @@ def create_class():
         if entity and len(entity) >= 1:
             print('--- create entity class')
             create_entity(table, package, column, d)
+        VO = request.form.get('VO')
+        if VO and len(VO) >= 1:
+            create_VO(table, package, column, d)
+            print('--- create VO class')
+        DTO = request.form.get('DTO')
+        if DTO and len(DTO) >= 1:
+            create_DTO(table, package, column, d)
+            print('--- create DTO class')
         dao = request.form.get('dao')
         if dao and len(dao) >= 1:
             print('--- create dao class')
@@ -80,6 +88,42 @@ def create_entity(class_name, package, columns, date):
          'date': date}
     s = render_template('entity_mongodb_templates.html', **c)
     create_java_file(class_name, package + '.entity', s)
+
+
+# 创建VO
+def create_VO(class_name, package, columns, date):
+    propertys = ''
+    if columns:
+        for key in columns.keys():
+            propertys += '/** \n *' + columns[key][1] + ' \n */ \n'
+            propertys += 'private %s %s;' % (columns[key][0], key) + '\n\n'
+    c = {'package': package + '.vo',
+         'entity_package': package + '.vo.' + class_name,
+         'class_name': class_name + 'VO',
+         'propertys': propertys,
+         'date': date}
+    s = render_template('entity_mongodb_templates.html', **c)
+    create_java_file(class_name + 'VO', package + '.vo', s)
+
+
+# 创建entity
+def create_DTO(class_name, package, columns, date):
+    propertys = ''
+    if columns:
+        for key in columns.keys():
+            propertys += '/** \n *' + columns[key][1] + ' \n */ \n'
+            if columns[key][0] == 'String':
+                propertys += '@NotBlank(message = "' + key + '不能为空\")\n'
+            else:
+                propertys += '@NotNull(message = "' + key + '不能为空\")\n'
+            propertys += 'private %s %s;' % (columns[key][0], key) + '\n\n'
+    c = {'package': package + '.dto',
+         'entity_package': package + '.dto.' + class_name,
+         'class_name': class_name + 'DTO',
+         'propertys': propertys,
+         'date': date}
+    s = render_template('entity_mongodb_templates.html', **c)
+    create_java_file(class_name + 'DTO', package + '.dto', s)
 
 
 # 创建Dao
@@ -144,7 +188,6 @@ def make_targz():
 
 
 def get_column(table_name):
-    date = time.strftime("%Y-%m-%d", time.localtime())  # 时间
     columus = {}  # 列
 
     sql = """SELECT
