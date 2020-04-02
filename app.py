@@ -11,7 +11,8 @@ db = connectDB.connect_db()
 app = Flask(__name__)
 cursor = db.cursor()
 table_list = connectDB.get_table_list_map()
-pre_package = '"com.hwr."'
+pre_package = 'cn.xmlly.'
+title = 'wechat_api'
 
 
 @app.route('/index')
@@ -35,14 +36,16 @@ def create_class():
     if len(table) <= 0:
         msg = 'request data json is null!'
     column = get_column(table)
-    package = "com.hwr." + table  # 包名
-    db_type = '1'
+
+    package = pre_package + table  # 包名
+    package = package.replace('_', '')
+
+    table = table.title().replace('_', '')
+
     if len(table) <= 0:
         msg = 'className is null!'
     if len(package) <= 0:
         msg = 'package is null'
-    if len(db_type) <= 0:
-        msg = 'type is null'
     print(table + '\n' + package)
     if not msg or len(msg) <= 0:
         d = time.strftime("%Y-%m-%d", time.localtime())
@@ -66,6 +69,7 @@ def create_class():
         if service and len(service) >= 1:
             print('--- create service class')
             create_service(table, package, d)
+            create_service_impl(table, package, d)
         controller = request.form.get('controller')
         if controller and len(controller) >= 1:
             print('--- create controller class')
@@ -143,20 +147,42 @@ def create_service(class_name, package, date):
          'small_class_name': small_str(class_name),
          'entity_package': package + '.entity.' + class_name,
          'dao_package': package + '.dao.' + class_name + 'Dao',
-         'date': date}
+         'date': date,
+         'vo_package': package + '.vo.' + class_name + 'VO',
+         'dto_package': package + '.dto.' + class_name + 'DTO'
+         }
     s = render_template('service_templates.html', **c)
     create_java_file(class_name + 'Service', package + '.service', s)
 
 
-# 创建controller
-def create_controller(class_name, package, date):
-    c = {'package': package + '.entity',
+# 创建Service
+def create_service_impl(class_name, package, date):
+    c = {'package': package + '.service.impl',
          'class_name': class_name,
          'small_class_name': small_str(class_name),
          'entity_package': package + '.entity.' + class_name,
          'dao_package': package + '.dao.' + class_name + 'Dao',
-         'service_package': package + '.dao.' + class_name + 'Service',
-         'date': date}
+         'service_package': package + '.service.' + class_name + 'Service',
+         'date': date,
+         'vo_package': package + '.vo.' + class_name + 'VO',
+         'dto_package': package + '.dto.' + class_name + 'DTO'}
+    s = render_template('service_templates_impl.html', **c)
+    create_java_file(class_name + 'ServiceImpl', package + '.service.impl', s)
+
+
+# 创建controller
+def create_controller(class_name, package, date):
+    c = {'package': package + '.controller',
+         'project': pre_package,
+         'title': title,
+         'class_name': class_name,
+         'small_class_name': small_str(class_name),
+         'entity_package': package + '.entity.' + class_name,
+         'dao_package': package + '.dao.' + class_name + 'Dao',
+         'service_package': package + '.service.' + class_name + 'Service',
+         'date': date,
+         'vo_package': package + '.vo.' + class_name + 'VO',
+         'dto_package': package + '.dto.' + class_name + 'DTO'}
     s = render_template('controller_templates.html', **c)
     # print(s)
     create_java_file(class_name + 'Controller', package + '.controller', s)
@@ -188,7 +214,7 @@ def make_targz():
 
 
 def get_column(table_name):
-    columus = {}  # 列
+    columns = {}  # 列
 
     sql = """SELECT
                 COLUMN_NAME,
@@ -204,11 +230,23 @@ def get_column(table_name):
         results = cursor.fetchall()
         for row in results:
             tuple = (discern_type.discern_type(row[1]), row[2])
-            columus[row[0]] = tuple
-        return columus
+            columns[change_str(row[0])] = tuple
+        return columns
         # create_entity(table_name, package, columus, date)
     except Exception:
         print('traceback.format_exc():\n%s' % traceback.format_exc())
+
+
+def change_str(column):
+    str_list = str(column).split("_")
+    first = str_list[0].lower()
+    others = str_list[1:]
+
+    others_capital = [word.capitalize() for word in others]  # str.capitalize():将字符串的首字母转化为大写
+    others_capital[0:0] = [first]
+
+    hump_string = ''.join(others_capital)
+    return hump_string
 
 
 if __name__ == '__main__':

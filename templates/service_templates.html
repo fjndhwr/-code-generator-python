@@ -1,105 +1,62 @@
 package {{ package }};
 
-import com.kauto.core.common.exception.BusinessException;
-import com.kauto.core.common.snowflake.IdWorker;
-import com.kauto.core.common.utils.LoginUtils;
-import com.kauto.core.common.utils.contant.DataStatus;
-import com.kauto.core.common.utils.date.DateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Service;
 
-import {{ dao_package }};
 import {{ entity_package }};
-import com.kauto.market.ds.mongo.BaseMarketMongoServiceImpl;
+import {{ vo_package }};
+import {{ dto_package }};
 
-import java.io.File;
 import java.util.List;
-import javax.annotation.Resource;
 
 /**
- * @author admin
+ * @author hwr
  * @version V1.0
  * @Description 业务类
  * @date {{ date }}
  * @since V1.0
  */
-@Service
-public class {{ class_name }}Service extends BaseMarketMongoServiceImpl<{{ class_name }}, String, {{ class_name }}Dao> {
-
-    @Resource
-    private {{ class_name }}Dao {{ small_class_name }}Dao;
+public interface {{ class_name }}Service {
 
     /**
 	 * @Description: 新增
 	 * @since V1.0
-	 * @param entity
+	 * @param {{ small_class_name }}
 	 */
-	public {{ class_name }} save({{ class_name }} entity) {
-		return super.save(entity);
-	}
+     {{ class_name }}VO save({{ class_name }}DTO {{ small_class_name }});
 
     /**
 	 * @Description: 修改
 	 * @since V1.0
-	 * @param entity
+	 * @param {{ small_class_name }}
 	 */
-	public {{ class_name }} update({{ class_name }} entity) {
-		return super.update(entity);
-	}
+	 {{ class_name }}VO update({{ class_name }}DTO {{ small_class_name }});
 
     /**
 	 * @Description: 批量删除
 	 * @since V1.0
 	 * @param id
 	 */
-	public {{ class_name }} delete(List<String> id) {
-		for (String id : ids) {
-			super.remove(id);
-		}
-	}
+	 void delete(List<Long> id);
 
     /**
 	 * @Description: 查询列表
 	 * @since V1.0
-	 * @param Map
+	 * @param {{ small_class_name }}
 	 */
-	public List<{{ class_name }}> list({{ class_name }} entity) {
-		Query query = new Query();
-        //Criteria criteria = Criteria.where("id").is(id);
-        //query.with(new Sort(Sort.Direction.ASC, "order"));
-        //query.addCriteria(criteria);
-        return super.find(query);
-	}
+	 List<{{ class_name }}VO> list({{ class_name }}DTO {{ small_class_name }});
 
     /**
 	 * @Description: 分页查询列表
 	 * @since V1.0
 	 * @param Map
 	 */
-	public List<{{ class_name }}> page({{ class_name }} entity) {
-		Pagination<{{ class_name }}> page = new Pagination<{{ class_name }}>();
-		page.setPageNum(param.getPageNum());
-		page.setPageSize(param.getPageSize());
-		Query query = new Query();
-		//Criteria criteria = Criteria.where("targetType").is(parameter.get("targetType"));
-		//query.addCriteria(criteria);
-		//query.with(new Sort(Sort.Direction.DESC, "createTime"));
-		return super.page(query, page);
-	}
+	 List<{{ class_name }}VO> page({{ class_name }}DTO {{ small_class_name }});
 
     /**
 	 * @Description: 通过ID查询
 	 * @since V1.0
 	 * @param id
 	 */
-	public List<{{ class_name }}> findById(String id) {
-		Query query = new Query();
-        Criteria criteria = Criteria.where("id").is(id);
-        query.addCriteria(criteria);
-        return super.findOne(query);
-	}
+	 {{ class_name }}VO findById(String id);
 
 }

@@ -1,0 +1,81 @@
+package {{ package }};
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import {{ dao_package }};
+import {{ entity_package }};
+import {{ service_package }};
+import {{ vo_package }};
+import {{ dto_package }};
+
+import java.util.List;
+
+/**
+ * @author hwr
+ * @version V1.0
+ * @Description 业务类
+ * @date {{ date }}
+ * @since V1.0
+ */
+@Service
+public class {{ class_name }}ServiceImpl implements {{ class_name }}Service {
+
+    @Autowired
+    private {{ class_name }}Dao {{ small_class_name }}Dao;
+
+    /**
+	 * @Description: 新增
+	 * @since V1.0
+	 * @param {{ small_class_name }}
+	 */
+	public {{ class_name }}VO save({{ class_name }}DTO {{ small_class_name }}) {
+		return {{ small_class_name }}Dao.save(entity);
+	}
+
+    /**
+	 * @Description: 修改
+	 * @since V1.0
+	 * @param {{ small_class_name }}
+	 */
+	public {{ class_name }}VO update({{ class_name }}DTO {{ small_class_name }}) {
+		return {{ small_class_name }}Dao.update(entity);
+	}
+
+    /**
+	 * @Description: 批量删除
+	 * @since V1.0
+	 * @param ids
+	 */
+	public void delete(List<Long> ids) {
+        {{ small_class_name }}Dao.batchRemove(ids);
+	}
+
+    /**
+	 * @Description: 查询列表
+	 * @since V1.0
+	 * @param {{ small_class_name }}
+	 */
+	public List<{{ class_name }}VO> list({{ class_name }}DTO {{ small_class_name }}) {
+        return {{ small_class_name }}Dao.getList({{ small_class_name }});
+	}
+
+    /**
+	 * @Description: 分页查询列表
+	 * @since V1.0
+	 * @param {{ small_class_name }}
+	 */
+	public List<{{ class_name }}VO> page({{ class_name }}DTO {{ small_class_name }}) {
+            return {{ small_class_name }}Dao.getList({{ small_class_name }});
+	}
+
+    /**
+	 * @Description: 通过ID查询
+	 * @since V1.0
+	 * @param id
+	 */
+	public {{ class_name }}VO findById(String id) {
+	         return {{ small_class_name }}Dao.getById(id);
+	}
+
+}
