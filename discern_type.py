@@ -5,5 +5,9 @@ map = {"varchar": "String", "char": "String", "text": "String", "longtext": "Str
 
 
 def discern_type(type):
-    return map[type]
+    try:
+        return map.get(type)
+    except:
+        print(type)
+        return map.get("varchar")
 

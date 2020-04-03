@@ -2,11 +2,11 @@ import MySQLdb
 import traceback
 
 #date_name = 'world'
-date_name = 'wechat_service_test'
+date_name = 'world'
 
 def connect_db():
-#    conn = MySQLdb.connect(db=date_name, host='127.0.0.1', user='root', passwd='a2319779', port=3306, charset='utf8')
-    conn = MySQLdb.connect(db=date_name, host='192.168.8.90', user='root', passwd='XMlianluoyimysql!!!', port=32098, charset='utf8')
+    conn = MySQLdb.connect(db=date_name, host='127.0.0.1', user='root', passwd='a2319779', port=3306, charset='utf8')
+ #   conn = MySQLdb.connect(db=date_name, host='192.168.8.90', user='root', passwd='XMlianluoyimysql!!!', port=32098, charset='utf8')
     return conn
 
 

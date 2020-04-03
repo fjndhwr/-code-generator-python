@@ -4,62 +4,49 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="{{ dao_package }}">
 
-    <sql id="Column">
-        id as "id",
-        name as "name" ,
-        age as "age" ,
-        address as "address"
+    <sql id="AllColumn">
+        {{ column_ }}
     </sql>
 
     <select id="findById" parameterType="java.lang.String" resultType="{{ vo_package }}">
         select
-        <include refid="Base_Column_List"/>
+            <include refid="AllColumn"/>
         from
-        {{ table_name }}
+            {{ table_name }}
         where
-        id = #{id,jdbcType=VARCHAR}
+            {{ id }} = #{id}
     </select>
 
     <select id="list" parameterType="Map" resultType="{{ vo_package }}">
         select
-        <include refid="Base_Column_List"/>
+            <include refid="AllColumn"/>
         from
-        {{ table_name }}
+            {{ table_name }}
         <where>
-            <if test="id!=null and id!=''">
-                and id = #{id,jdbcType=VARCHAR}
+           {% for column in columns.keys() %}<if test="{{ column }}!=null and  {{ column }}!=''">
+                and {{ columns[column][2] }} = #{ {{ column }}}
             </if>
-            <if test="id!=null and id!=''">
-                and name = #{name,jdbcType=VARCHAR}
-            </if>
-            <if test="id!=null and id!=''">
-                and age = #{age,jdbcType=VARCHAR}
-            </if>
-            <if test="id!=null and id!=''">
-                and address = #{address,jdbcType=VARCHAR}
-            </if>
+          {% endfor %}
         </where>
     </select>
 
     <delete id="delete">
         delete from
-        {{ table_name }}
+            {{ table_name }}
         where
-        id = #{id,jdbcType=VARCHAR}
+            {{ id }} IN
+         <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+         </foreach>
     </delete>
 
     <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into
-        {{ table_name }} (
-        id ,
-        name ,
-        age ,
-        address ,
+            {{ table_name }}
+        (
+            {{ insert_column }}
         ) values (
-        #{ id ,jdbcType= VARCHAR},
-        #{ name ,jdbcType= VARCHAR} ,
-        #{ age ,jdbcType= VARCHAR} ,
-        #{ address ,jdbcType= VARCHAR}
+             {{ insert_value }}
         )
     </insert>
 
@@ -67,21 +54,13 @@
         update
         {{ table_name }}
         <set>
-            <if test=" id != null">
-                id = #{ id ,jdbcType= VARCHAR} ,
+            {% for column in columns.keys() %}<if test=" {{ column }}!=null and {{ column }}!=''">
+              {{ columns[column][2] }}  address = #{ {{ column }}} ,
             </if>
-            <if test=" name != null">
-                name = #{ name ,jdbcType= VARCHAR} ,
-            </if>
-            <if test=" age != null">
-                age = #{ age ,jdbcType= VARCHAR} ,
-            </if>
-            <if test=" address != null">
-                address = #{ address ,jdbcType= VARCHAR} ,
-            </if>
+            {% endfor %}
         </set>
         where
-        id = #{id,jdbcType=VARCHAR}
+            {{ id }} = #{id}
     </update>
 
 </mapper>

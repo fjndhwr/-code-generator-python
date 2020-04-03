@@ -35,11 +35,12 @@ def create_class():
     table = request.form['table']
     if len(table) <= 0:
         msg = 'request data json is null!'
-    column = get_column(table)
+    result = get_column(table)
+    column = result[0]
 
     package = pre_package + table  # 包名
     package = package.replace('_', '')
-
+    table_name = table
     table = table.title().replace('_', '')
 
     if len(table) <= 0:
@@ -65,6 +66,7 @@ def create_class():
         if dao and len(dao) >= 1:
             print('--- create dao class')
             create_dao(table, package, d)
+            create_xml(table, table_name, package, result)
         service = request.form.get('service')
         if service and len(service) >= 1:
             print('--- create service class')
@@ -143,17 +145,48 @@ def create_dao(class_name, package, date):
     create_java_file(class_name + 'Dao', package + '.dao', s)
 
 
-def create_xml(class_name, package, date):
+def create_xml(class_name, table_name, package, result):
+    all_column = ''
+    insert_column = ''
+    for index, item in enumerate(result[1]):
+        if index == 0:
+            all_column += item + '\n'
+        elif index == 1:
+            insert_column += item + '\n'
+            all_column += '        ,' + item + '\n'
+        else:
+            insert_column += '        ,' + item + '\n'
+            all_column += '        ,' + item + '\n'
+
+    result[0].pop(change_str(result[1][0]))
+
+    insert = insert_value(result[0])
     c = {'package': package + '.dao',
          'class_name': class_name,
-         'entity_package': package + '.entity.' + class_name,
-         'date': date,
-         'dao_package': package + '.dao.' + class_name + 'Dao',
-         'vo_package': package + '.vo.' + class_name + 'VO',
-         'dto_package': package + '.dto.' + class_name + 'DTO'
+         'columns': result[0],
+         'id': result[1][0],
+         'column_': all_column,
+         'table_name': table_name,
+         'insert_column': insert_column,
+         'insert_value': insert[0],
+         'batch_insert_value': insert[1]
          }
-    s = render_template('dao_templates.html', **c)
-    create_java_file(class_name + 'Dao', package + '.dao', s)
+    s = render_template('entity_mysql_mapper_templates.html', **c)
+    create_java_file(class_name + 'Dao', package + '.dao', s, '.xml')
+
+
+def insert_value(columns):
+    insert_value = ''
+    batch_insert_value = ''
+    for index, item in enumerate(columns.keys()):
+        if index == 0:
+            insert_value += '#{' + item + '}\n'
+            batch_insert_value += '#{item.' + item + '}\n'
+        else:
+            insert_value += ',#{' + item + '}\n'
+            batch_insert_value += ',#{item.' + item + '}\n'
+    insert = (insert_value, batch_insert_value)
+    return insert
 
 
 # 创建Service
@@ -230,7 +263,7 @@ def make_targz():
 
 def get_column(table_name):
     columns = {}  # 列
-
+    columns_ = []
     sql = """SELECT
                 COLUMN_NAME,
                 DATA_TYPE,
@@ -244,9 +277,11 @@ def get_column(table_name):
         cursor.execute(sql)
         results = cursor.fetchall()
         for row in results:
-            tuple = (discern_type.discern_type(row[1]), row[2])
+            tuple = (discern_type.discern_type(row[1]), row[2], row[0])
             columns[change_str(row[0])] = tuple
-        return columns
+            columns_.append(row[0])
+        result = (columns, columns_)
+        return result
         # create_entity(table_name, package, columus, date)
     except Exception:
         print('traceback.format_exc():\n%s' % traceback.format_exc())
