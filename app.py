@@ -135,7 +135,23 @@ def create_dao(class_name, package, date):
     c = {'package': package + '.dao',
          'class_name': class_name,
          'entity_package': package + '.entity.' + class_name,
-         'date': date}
+         'date': date,
+         'vo_package': package + '.vo.' + class_name + 'VO',
+         'dto_package': package + '.dto.' + class_name + 'DTO'
+         }
+    s = render_template('dao_templates.html', **c)
+    create_java_file(class_name + 'Dao', package + '.dao', s)
+
+
+def create_xml(class_name, package, date):
+    c = {'package': package + '.dao',
+         'class_name': class_name,
+         'entity_package': package + '.entity.' + class_name,
+         'date': date,
+         'dao_package': package + '.dao.' + class_name + 'Dao',
+         'vo_package': package + '.vo.' + class_name + 'VO',
+         'dto_package': package + '.dto.' + class_name + 'DTO'
+         }
     s = render_template('dao_templates.html', **c)
     create_java_file(class_name + 'Dao', package + '.dao', s)
 
@@ -178,7 +194,6 @@ def create_controller(class_name, package, date):
          'class_name': class_name,
          'small_class_name': small_str(class_name),
          'entity_package': package + '.entity.' + class_name,
-         'dao_package': package + '.dao.' + class_name + 'Dao',
          'service_package': package + '.service.' + class_name + 'Service',
          'date': date,
          'vo_package': package + '.vo.' + class_name + 'VO',

@@ -1,22 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="{{ entity_package }}Mapper">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="{{ dao_package }}">
 
-    <resultMap id="BaseResultMap" type="{{ entity_package }}">
-        <id column="id" jdbcType="VARCHAR" property="id"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="age" jdbcType="BIGINT" property="age"/>
-        <result column="address" jdbcType="VARCHAR" property="address"/>
-    </resultMap>
-
-    <sql id="Base_Column_List">
+    <sql id="Column">
         id as "id",
         name as "name" ,
         age as "age" ,
         address as "address"
     </sql>
 
-    <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="findById" parameterType="java.lang.String" resultType="{{ vo_package }}">
         select
         <include refid="Base_Column_List"/>
         from
@@ -25,7 +20,7 @@
         id = #{id,jdbcType=VARCHAR}
     </select>
 
-    <select id="list" parameterType="Map" resultMap="BaseResultMap">
+    <select id="list" parameterType="Map" resultType="{{ vo_package }}">
         select
         <include refid="Base_Column_List"/>
         from
@@ -46,17 +41,14 @@
         </where>
     </select>
 
-    <delete id="delete" parameterType="java.lang.String">
+    <delete id="delete">
         delete from
         {{ table_name }}
         where
         id = #{id,jdbcType=VARCHAR}
     </delete>
 
-    <insert id="insert" parameterType="{{ entity_package }}"
-            useGeneratedKeys="true"
-            keyColumn="id"
-            keyProperty="id">
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into
         {{ table_name }} (
         id ,
@@ -71,7 +63,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="{{ entity_package }}">
+    <update id="update">
         update
         {{ table_name }}
         <set>
