@@ -45,9 +45,24 @@
             {{ table_name }}
         (
             {{ insert_column }}
-        ) values (
+        ) values
+       (
              {{ insert_value }}
         )
+
+    </insert>
+
+    <insert id="batchInsert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into
+            {{ table_name }}
+        (
+            {{ insert_column }}
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+                {{ batch_insert_value }}
+            )
+        </foreach>
     </insert>
 
     <update id="update">

@@ -1,16 +1,21 @@
 package {{ package }};
 
-import java.io.Serializable;
+import lombok.Data;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import {{ dto_package }};
 
 /**
- * @author admin
+ * @author hwr
  * @version 1.0
- * @Description Mybatis 实体类
+ * @Description {{ class_name }}
  * @date {{ date }}
  */
-public class {{ class_name }} implements Serializable {
+@Data
+public class {{ class_name }} extends {{ dto_name }}  {
+    @NotNull(message = "limit不为空")
+    private Integer limit;
 
-{{ propertys }}
-
-{{ methods }}
+    @NotNull(message = "pageNo不为空")
+    private Integer pageNo;
 }

@@ -18,14 +18,20 @@ import java.util.List;
  *
  */
 @Component
-@Documented
 public interface {{ class_name }}Dao{
     /**
 	 * @Description: 新增
 	 * @since V1.0
 	 * @param {{ small_class_name }}
 	 */
-     {{ class_name }}VO save({{ class_name }}DTO {{ small_class_name }});
+     {{ class_name }}VO insert({{ class_name }}DTO {{ small_class_name }});
+
+     /**
+	 * @Description: 批量新增
+	 * @since V1.0
+	 * @param list
+	 */
+     {{ class_name }}VO batchInsert(List<{{ class_name }}DTO> list);
 
     /**
 	 * @Description: 修改
@@ -37,7 +43,7 @@ public interface {{ class_name }}Dao{
     /**
 	 * @Description: 批量删除
 	 * @since V1.0
-	 * @param id
+	 * @param ids
 	 */
 	 void delete(List<Long> ids);
 
@@ -48,12 +54,6 @@ public interface {{ class_name }}Dao{
 	 */
 	 List<{{ class_name }}VO> list({{ class_name }}DTO {{ small_class_name }});
 
-    /**
-	 * @Description: 分页查询列表
-	 * @since V1.0
-	 * @param Map
-	 */
-	 List<{{ class_name }}VO> page({{ class_name }}DTO {{ small_class_name }});
 
     /**
 	 * @Description: 通过ID查询

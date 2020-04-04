@@ -2,12 +2,15 @@ package {{ package }};
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.github.pagehelper.PageHelper;
 
+import {{ base_page }}.base.PageData;
 import {{ dao_package }};
 import {{ entity_package }};
 import {{ service_package }};
 import {{ vo_package }};
 import {{ dto_package }};
+import {{ page_entity }};
 
 import java.util.List;
 
@@ -30,7 +33,7 @@ public class {{ class_name }}ServiceImpl implements {{ class_name }}Service {
 	 * @param {{ small_class_name }}
 	 */
 	public {{ class_name }}VO save({{ class_name }}DTO {{ small_class_name }}) {
-		return {{ small_class_name }}Dao.save(entity);
+		return {{ small_class_name }}Dao.insert({{ small_class_name }});
 	}
 
     /**
@@ -39,7 +42,7 @@ public class {{ class_name }}ServiceImpl implements {{ class_name }}Service {
 	 * @param {{ small_class_name }}
 	 */
 	public {{ class_name }}VO update({{ class_name }}DTO {{ small_class_name }}) {
-		return {{ small_class_name }}Dao.update(entity);
+		return {{ small_class_name }}Dao.update({{ small_class_name }});
 	}
 
     /**
@@ -48,7 +51,7 @@ public class {{ class_name }}ServiceImpl implements {{ class_name }}Service {
 	 * @param ids
 	 */
 	public void delete(List<Long> ids) {
-        {{ small_class_name }}Dao.batchRemove(ids);
+        {{ small_class_name }}Dao.delete(ids);
 	}
 
     /**
@@ -57,7 +60,7 @@ public class {{ class_name }}ServiceImpl implements {{ class_name }}Service {
 	 * @param {{ small_class_name }}
 	 */
 	public List<{{ class_name }}VO> list({{ class_name }}DTO {{ small_class_name }}) {
-        return {{ small_class_name }}Dao.getList({{ small_class_name }});
+        return {{ small_class_name }}Dao.list({{ small_class_name }});
 	}
 
     /**
@@ -65,8 +68,12 @@ public class {{ class_name }}ServiceImpl implements {{ class_name }}Service {
 	 * @since V1.0
 	 * @param {{ small_class_name }}
 	 */
-	public List<{{ class_name }}VO> page({{ class_name }}DTO {{ small_class_name }}) {
-            return {{ small_class_name }}Dao.getList({{ small_class_name }});
+	public PageData<{{ class_name }}VO> page({{ class_name }}PageDTO {{ small_class_name }}) {
+            PageData<{{ class_name }}VO> pageData = new PageData<>({{ small_class_name }}.getPageNo(), {{ small_class_name }}.getLimit());
+            PageHelper.startPage(pageData.getPageNo(), pageData.getLimit());
+            List<{{ class_name }}VO> list = {{ small_class_name }}Dao.list({{ small_class_name }});
+            pageData.setData(list);
+            return pageData;
 	}
 
     /**
@@ -75,7 +82,7 @@ public class {{ class_name }}ServiceImpl implements {{ class_name }}Service {
 	 * @param id
 	 */
 	public {{ class_name }}VO findById(String id) {
-	         return {{ small_class_name }}Dao.getById(id);
+            return {{ small_class_name }}Dao.findById(id);
 	}
 
 }

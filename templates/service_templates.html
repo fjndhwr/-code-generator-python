@@ -1,10 +1,10 @@
 package {{ package }};
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import {{ entity_package }};
 import {{ vo_package }};
 import {{ dto_package }};
+import {{ page_entity }};
+import {{ base_page }}.base.PageData;
 
 import java.util.List;
 
@@ -48,9 +48,9 @@ public interface {{ class_name }}Service {
     /**
 	 * @Description: 分页查询列表
 	 * @since V1.0
-	 * @param Map
+	 * @param {{ small_class_name }}
 	 */
-	 List<{{ class_name }}VO> page({{ class_name }}DTO {{ small_class_name }});
+	 PageData<{{ class_name }}VO> page({{ class_name }}PageDTO {{ small_class_name }});
 
     /**
 	 * @Description: 通过ID查询

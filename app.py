@@ -1,5 +1,4 @@
 import os
-import json
 import time
 import tarfile
 import traceback
@@ -11,8 +10,9 @@ db = connectDB.connect_db()
 app = Flask(__name__)
 cursor = db.cursor()
 table_list = connectDB.get_table_list_map()
-pre_package = 'cn.xmlly.'
-title = 'wechat_api'
+pre_package = 'com.hwr.base.'
+base_page = 'com.hwr.common'
+title = 'wechat'
 
 
 @app.route('/index')
@@ -61,6 +61,7 @@ def create_class():
         DTO = request.form.get('DTO')
         if DTO and len(DTO) >= 1:
             create_DTO(table, package, column, d)
+            create_page(table, package, d)
             print('--- create DTO class')
         dao = request.form.get('dao')
         if dao and len(dao) >= 1:
@@ -127,15 +128,27 @@ def create_DTO(class_name, package, columns, date):
          'entity_package': package + '.dto.' + class_name,
          'class_name': class_name + 'DTO',
          'propertys': propertys,
-         'date': date}
+         'date': date
+         }
     s = render_template('entity_mongodb_templates.html', **c)
     create_java_file(class_name + 'DTO', package + '.dto', s)
+
+
+def create_page(class_name, package, date):
+    c = {'package': package + '.dto',
+         'class_name': class_name + 'PageDTO',
+         'dto_name': class_name + 'DTO',
+         'dto_package': package + '.dto.' + class_name + 'DTO',
+         'date': date}
+    s = render_template('entity_mysql_templates.html', **c)
+    create_java_file(class_name + 'PageDTO', package + '.dto', s)
 
 
 # 创建Dao
 def create_dao(class_name, package, date):
     c = {'package': package + '.dao',
          'class_name': class_name,
+         'small_class_name': small_str(class_name),
          'entity_package': package + '.entity.' + class_name,
          'date': date,
          'vo_package': package + '.vo.' + class_name + 'VO',
@@ -162,6 +175,8 @@ def create_xml(class_name, table_name, package, result):
 
     insert = insert_value(result[0])
     c = {'package': package + '.dao',
+         'vo_package': package + '.vo.' + class_name + 'VO',
+         'dao_package': package + '.dao.' + class_name + 'Dao',
          'class_name': class_name,
          'columns': result[0],
          'id': result[1][0],
@@ -198,7 +213,10 @@ def create_service(class_name, package, date):
          'dao_package': package + '.dao.' + class_name + 'Dao',
          'date': date,
          'vo_package': package + '.vo.' + class_name + 'VO',
-         'dto_package': package + '.dto.' + class_name + 'DTO'
+         'dto_package': package + '.dto.' + class_name + 'DTO',
+         'page_dto': class_name + 'PageDTO',
+         'page_entity': package + '.dto.' + class_name + 'PageDTO',
+         'base_page': base_page
          }
     s = render_template('service_templates.html', **c)
     create_java_file(class_name + 'Service', package + '.service', s)
@@ -214,7 +232,10 @@ def create_service_impl(class_name, package, date):
          'service_package': package + '.service.' + class_name + 'Service',
          'date': date,
          'vo_package': package + '.vo.' + class_name + 'VO',
-         'dto_package': package + '.dto.' + class_name + 'DTO'}
+         'dto_package': package + '.dto.' + class_name + 'DTO',
+         'page_entity': package + '.dto.' + class_name + 'PageDTO',
+         'base_page': base_page
+         }
     s = render_template('service_templates_impl.html', **c)
     create_java_file(class_name + 'ServiceImpl', package + '.service.impl', s)
 
@@ -230,7 +251,9 @@ def create_controller(class_name, package, date):
          'service_package': package + '.service.' + class_name + 'Service',
          'date': date,
          'vo_package': package + '.vo.' + class_name + 'VO',
-         'dto_package': package + '.dto.' + class_name + 'DTO'}
+         'dto_package': package + '.dto.' + class_name + 'DTO',
+         'page_entity': package + '.dto.' + class_name + 'PageDTO',
+         'base_page': base_page}
     s = render_template('controller_templates.html', **c)
     # print(s)
     create_java_file(class_name + 'Controller', package + '.controller', s)

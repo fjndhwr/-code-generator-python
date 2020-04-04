@@ -2,16 +2,19 @@ package {{ package }};
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.constraints.NotNull;
 
 import {{ service_package }};
 import {{ entity_package }};
 
-import {{ project }}common.base.BaseApiService;
-import {{ project }}common.base.BaseResponse;
+import {{ base_page }}.base.BaseApiService;
+import {{ base_page }}.base.BaseResponse;
 import javax.validation.Valid;
 import java.util.List;
 import {{ vo_package }};
 import {{ dto_package }};
+import {{ page_entity }};
+
 
 /**
  * @author hwr
@@ -35,7 +38,7 @@ public class {{ class_name }}Controller {
 	 * @since V1.0
 	 * @param {{ small_class_name }}
 	 */
-	@RequestMapping(value = "/save" )
+	@PostMapping(value = "/save" )
     public BaseResponse save(@RequestBody @Valid {{ class_name }}DTO {{ small_class_name }}){
 		return baseApiService.setResultSuccess({{ small_class_name }}Service.save({{ small_class_name }}));
 	 }
@@ -45,7 +48,7 @@ public class {{ class_name }}Controller {
 	 * @since V1.0
 	 * @param {{ small_class_name }}
 	 */
-	@RequestMapping(value = "/update" )
+	@PostMapping(value = "/update" )
     public BaseResponse update(@RequestBody @Valid {{ class_name }}DTO {{ small_class_name }}){
 		return baseApiService.setResultSuccess({{ small_class_name }}Service.update({{ small_class_name }}));
     }
@@ -55,7 +58,7 @@ public class {{ class_name }}Controller {
 	 * @since V1.0
 	 * @param ids
 	 */
-	@RequestMapping(value = "/delete" )
+	@PostMapping(value = "/delete" )
     public BaseResponse delete(@RequestBody List<Long> ids){
 		{{ small_class_name }}Service.delete(ids);
 		return baseApiService.setResultSuccessMsg("刪除成功");
@@ -66,8 +69,8 @@ public class {{ class_name }}Controller {
 	 * @since V1.0
 	 * @param {{ small_class_name }}
 	 */
-	@RequestMapping(value = "/list" )
-    public BaseResponse list(@RequestBody @Valid {{ class_name }}DTO {{ small_class_name }}){
+	@GetMapping(value = "/list" )
+    public BaseResponse list(@Valid {{ class_name }}DTO {{ small_class_name }}){
 		List<{{ class_name }}VO> list = {{ small_class_name }}Service.list({{ small_class_name }});
 		return baseApiService.setResultSuccess(list);
     }
@@ -77,10 +80,9 @@ public class {{ class_name }}Controller {
 	 * @since V1.0
 	 * @param {{ small_class_name }}
 	 */
-	@RequestMapping(value = "/page" )
-    public BaseResponse page(@RequestBody @Valid {{ class_name }}DTO {{ small_class_name }}){
-		List<{{ class_name }}VO> list = {{ small_class_name }}Service.page({{ small_class_name }});
-		return baseApiService.setResultSuccess(list);
+	@GetMapping(value = "/page" )
+    public BaseResponse page(@Valid {{ class_name }}PageDTO {{ small_class_name }}){
+		return baseApiService.setResultSuccess({{ small_class_name }}Service.page({{ small_class_name }}));
     }
 
 
@@ -89,8 +91,8 @@ public class {{ class_name }}Controller {
 	 * @since V1.0
 	 * @param id
 	 */
-	@RequestMapping(value = "/findById" )
-    public BaseResponse findById(@RequestParam String id){
+	@GetMapping(value = "/findById" )
+    public BaseResponse findById(@NotNull(message = "id不能为空") String id){
         return baseApiService.setResultSuccess({{ small_class_name }}Service.findById(id));
     }
 
