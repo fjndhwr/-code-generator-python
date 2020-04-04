@@ -6,6 +6,7 @@ s = config.read_yaml()
 db_config = s['mysql']
 date_name = db_config['db_name']
 
+
 def connect_db():
     conn = MySQLdb.connect(db=date_name, host=db_config['host'], user=db_config['user'], passwd=db_config['password'], port=db_config['port'], charset='utf8')
     return conn
