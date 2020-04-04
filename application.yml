@@ -8,3 +8,4 @@ mysql:
 pre_package: com.hwr.base.
 base_page: com.hwr.common
 title: wechat
+path: D:/temp/python/

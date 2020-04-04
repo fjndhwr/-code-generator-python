@@ -13,6 +13,7 @@ table_list = connectDB.get_table_list_map()
 pre_package = s['pre_package']
 base_page = s['base_page']
 title = s['title']
+path = s['path']
 
 
 @app.route('/index')
@@ -268,7 +269,7 @@ def small_str(s):
 
 # 创建java文件
 def create_java_file(class_name, package, text, suffix='.java'):
-    dirs = 'D:/temp/python/' + package.replace('.', '/') + '/'
+    dirs = path + package.replace('.', '/') + '/'
     if not os.path.exists(dirs):
         os.makedirs(dirs, 0o777)
     fd = os.open(dirs + class_name + suffix, os.O_WRONLY | os.O_CREAT)
@@ -278,7 +279,7 @@ def create_java_file(class_name, package, text, suffix='.java'):
 
 def make_targz():
     file_name = 'com.tar.gz'
-    source_dir = 'D:/temp/python/'
+    source_dir = path
     with tarfile.open(file_name, "w:gz") as tar:
         tar.add(source_dir, arcname=os.path.basename(source_dir))
     return file_name

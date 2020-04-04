@@ -4,10 +4,8 @@
     <list default="true" id="49e8d38e-a0d1-4efa-8a63-6538caac2e85" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/build/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connectDB.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/connectDB.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/discern_type.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/discern_type.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/build/config.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -45,15 +43,17 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\my\daimashengchengqi\templates" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\hwr\PycharmProjects\untitled1\build" />
       <recent name="C:\Users\hwr\PycharmProjects\untitled1\templates" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\hwr\PycharmProjects\untitled1" />
+      <recent name="D:\my\daimashengchengqi\templates" />
       <recent name="C:\Users\hwr\PycharmProjects\untitled1\templates" />
     </key>
   </component>
@@ -176,7 +176,7 @@
       <workItem from="1585934362277" duration="1798000" />
       <workItem from="1585936179494" duration="1794000" />
       <workItem from="1585937998265" duration="1648000" />
-      <workItem from="1585973303203" duration="12741000" />
+      <workItem from="1585973303203" duration="14510000" />
     </task>
     <task id="LOCAL-00001" summary="第一上传">
       <created>1584022247533</created>
@@ -227,7 +227,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585991135528</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="切换文件位置">
+      <created>1585991930461</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1585991930461</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -266,7 +273,8 @@
     <MESSAGE value="上传代码" />
     <MESSAGE value="修改模板" />
     <MESSAGE value="模板设计完毕，等待明天测试" />
-    <option name="LAST_COMMIT_MESSAGE" value="模板设计完毕，等待明天测试" />
+    <MESSAGE value="切换文件位置" />
+    <option name="LAST_COMMIT_MESSAGE" value="切换文件位置" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -288,6 +296,6 @@
     <SUITE FILE_PATH="coverage/untitled1$config.coverage" NAME="config Coverage Results" MODIFIED="1585582724611" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/daimashengchengqi$app.coverage" NAME="app Coverage Results" MODIFIED="1585824757511" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/untitled1$app.coverage" NAME="app Coverage Results" MODIFIED="1585578377081" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/untitled1$Flask__app_py_.coverage" NAME="Flask (app.py) Coverage Results" MODIFIED="1585991730241" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/untitled1$Flask__app_py_.coverage" NAME="Flask (app.py) Coverage Results" MODIFIED="1585993850131" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
