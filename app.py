@@ -94,7 +94,7 @@ def create_entity(class_name, package, columns, date):
          'class_name': class_name,
          'propertys': propertys,
          'date': date}
-    s = render_template('entity_mongodb_templates.html', **c)
+    s = render_template('entity_templates.html', **c)
     create_java_file(class_name, package + '.entity', s)
 
 
@@ -110,7 +110,7 @@ def create_VO(class_name, package, columns, date):
          'class_name': class_name + 'VO',
          'propertys': propertys,
          'date': date}
-    s = render_template('entity_mongodb_templates.html', **c)
+    s = render_template('entity_templates.html', **c)
     create_java_file(class_name + 'VO', package + '.vo', s)
 
 
@@ -131,7 +131,7 @@ def create_DTO(class_name, package, columns, date):
          'propertys': propertys,
          'date': date
          }
-    s = render_template('entity_mongodb_templates.html', **c)
+    s = render_template('entity_templates.html', **c)
     create_java_file(class_name + 'DTO', package + '.dto', s)
 
 
@@ -141,7 +141,7 @@ def create_page(class_name, package, date):
          'dto_name': class_name + 'DTO',
          'dto_package': package + '.dto.' + class_name + 'DTO',
          'date': date}
-    s = render_template('entity_mysql_templates.html', **c)
+    s = render_template('page_templates.html', **c)
     create_java_file(class_name + 'PageDTO', package + '.dto', s)
 
 
