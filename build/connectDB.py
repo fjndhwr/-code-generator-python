@@ -1,6 +1,6 @@
 import MySQLdb
 import traceback
-import config
+from build import config
 
 s = config.read_yaml()
 db_config = s['mysql']

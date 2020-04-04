@@ -3,9 +3,7 @@ import time
 import tarfile
 import traceback
 from flask import Flask, render_template, send_from_directory, request
-import connectDB
-import discern_type
-import config
+from build import config, discern_type, connectDB
 
 s = config.read_yaml()
 db = connectDB.connect_db()
