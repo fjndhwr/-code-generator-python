@@ -1,0 +1,10 @@
+mysql:
+  db_name: world
+  host: 127.0.0.1
+  port: 3306
+  user: root
+  password: a2319779
+
+pre_package: com.hwr.base.
+base_page: com.hwr.common
+title: wechat

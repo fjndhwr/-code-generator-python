@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49e8d38e-a0d1-4efa-8a63-6538caac2e85" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/controller_templates.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/controller_templates.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/dao_templates.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/dao_templates.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/entity_mysql_mapper_templates.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/entity_mysql_mapper_templates.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/entity_mysql_templates.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/entity_mysql_templates.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/service_templates.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/service_templates.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/service_templates_impl.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/service_templates_impl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connectDB.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectDB.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/entity_mongodb_templates.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/entity_mongodb_templates.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -178,7 +176,7 @@
       <workItem from="1585934362277" duration="1798000" />
       <workItem from="1585936179494" duration="1794000" />
       <workItem from="1585937998265" duration="1648000" />
-      <workItem from="1585973303203" duration="9108000" />
+      <workItem from="1585973303203" duration="11970000" />
     </task>
     <task id="LOCAL-00001" summary="第一上传">
       <created>1584022247533</created>
@@ -215,7 +213,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585938929295</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="模板设计完毕，等待明天测试">
+      <created>1585984762017</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1585984762017</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -257,6 +262,15 @@
     <option name="LAST_COMMIT_MESSAGE" value="模板设计完毕，等待明天测试" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Python.FlaskServer">
         <watch expression="propertys" />
@@ -267,6 +281,6 @@
     <SUITE FILE_PATH="coverage/untitled1$config.coverage" NAME="config Coverage Results" MODIFIED="1585582724611" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/daimashengchengqi$app.coverage" NAME="app Coverage Results" MODIFIED="1585824757511" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/untitled1$app.coverage" NAME="app Coverage Results" MODIFIED="1585578377081" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/untitled1$Flask__app_py_.coverage" NAME="Flask (app.py) Coverage Results" MODIFIED="1585982307514" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/untitled1$Flask__app_py_.coverage" NAME="Flask (app.py) Coverage Results" MODIFIED="1585991110911" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

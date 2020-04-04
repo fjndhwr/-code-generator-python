@@ -5,14 +5,16 @@ import traceback
 from flask import Flask, render_template, send_from_directory, request
 import connectDB
 import discern_type
+import config
 
+s = config.read_yaml()
 db = connectDB.connect_db()
 app = Flask(__name__)
 cursor = db.cursor()
 table_list = connectDB.get_table_list_map()
-pre_package = 'com.hwr.base.'
-base_page = 'com.hwr.common'
-title = 'wechat'
+pre_package = s['pre_package']
+base_page = s['base_page']
+title = s['title']
 
 
 @app.route('/index')
