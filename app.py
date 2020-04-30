@@ -181,6 +181,7 @@ def create_xml(class_name, table_name, package, result):
          'class_name': class_name,
          'columns': result[0],
          'id': result[1][0],
+         'entity_id': result[0][0],
          'column_': all_column,
          'table_name': table_name,
          'insert_column': insert_column,

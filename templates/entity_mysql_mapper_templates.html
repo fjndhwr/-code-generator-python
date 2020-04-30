@@ -14,7 +14,8 @@
         from
             {{ table_name }}
         where
-            {{ id }} = #{id}
+            {{ id }} = #{ {{entity_id}}}
+
     </select>
 
     <select id="list" resultType="{{ vo_package }}">
