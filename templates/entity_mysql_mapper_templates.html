@@ -14,10 +14,11 @@
         from
             {{ table_name }}
         where
-            {{ id }} = #{id}
+            {{ id }} = #{ {{entity_id}}}
+
     </select>
 
-    <select id="list" parameterType="Map" resultType="{{ vo_package }}">
+    <select id="list" resultType="{{ vo_package }}">
         select
             <include refid="AllColumn"/>
         from
@@ -40,7 +41,7 @@
          </foreach>
     </delete>
 
-    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id="insert" useGeneratedKeys="true" keyColumn="{{ id }}" keyProperty="{{entity_id}}">
         insert into
             {{ table_name }}
         (
@@ -52,7 +53,7 @@
 
     </insert>
 
-    <insert id="batchInsert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id="batchInsert" useGeneratedKeys="true" keyColumn="{{ id }}" keyProperty="{{entity_id}}">
         insert into
             {{ table_name }}
         (
@@ -75,7 +76,7 @@
             {% endfor %}
         </set>
         where
-            {{ id }} = #{id}
+            {{ id }} = #{ {{entity_id}}}
     </update>
 
 </mapper>

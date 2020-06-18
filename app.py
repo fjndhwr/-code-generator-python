@@ -172,7 +172,8 @@ def create_xml(class_name, table_name, package, result):
             insert_column += '        ,' + item + '\n'
             all_column += '        ,' + item + '\n'
 
-    result[0].pop(change_str(result[1][0]))
+    entity_id = result[1][0]
+    result[0].pop(change_str(entity_id))
 
     insert = insert_value(result[0])
     c = {'package': package + '.dao',
@@ -181,6 +182,7 @@ def create_xml(class_name, table_name, package, result):
          'class_name': class_name,
          'columns': result[0],
          'id': result[1][0],
+         'entity_id': entity_id,
          'column_': all_column,
          'table_name': table_name,
          'insert_column': insert_column,
