@@ -71,7 +71,7 @@
         {{ table_name }}
         <set>
             {% for column in columns.keys() %}<if test=" {{ column }}!=null and {{ column }}!=''">
-              {{ columns[column][2] }}  address = #{ {{ column }}} ,
+              {{ columns[column][2] }} = #{ {{ column }}} ,
             </if>
             {% endfor %}
         </set>
