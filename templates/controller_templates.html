@@ -11,6 +11,7 @@ import {{ base_page }}.base.BaseApiService;
 import {{ base_page }}.base.BaseResponse;
 import javax.validation.Valid;
 import java.util.List;
+import org.springframework.validation.annotation.Validated;
 import {{ vo_package }};
 import {{ dto_package }};
 import {{ page_entity }};
@@ -23,6 +24,7 @@ import {{ page_entity }};
  * @date {{ date }}
  * @since V1.0
  */
+@Validated
 @RestController
 @RequestMapping("/{{ title }}/{{ small_class_name }}")
 public class {{ class_name }}Controller {
@@ -92,7 +94,7 @@ public class {{ class_name }}Controller {
 	 * @param id
 	 */
 	@GetMapping(value = "/findById" )
-    public BaseResponse findById(@NotNull(message = "id不能为空") String id){
+    public BaseResponse findById(@NotNull(message = "id不能为空") Long id){
         return baseApiService.setResultSuccess({{ small_class_name }}Service.findById(id));
     }
 
