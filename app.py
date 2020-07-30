@@ -62,6 +62,7 @@ def create_class():
         DTO = request.form.get('DTO')
         if DTO and len(DTO) >= 1:
             create_DTO(table, package, column, d)
+            create_UPDATE_DTO(table, package, column, d)
             create_page(table, package, d)
             print('--- create DTO class')
         dao = request.form.get('dao')
@@ -133,6 +134,25 @@ def create_DTO(class_name, package, columns, date):
          }
     s = render_template('entity_templates.html', **c)
     create_java_file(class_name + 'DTO', package + '.dto', s)
+
+
+# 创建entity
+def create_UPDATE_DTO(class_name, package, columns, date):
+    propertys = ''
+    if columns:
+        for key in columns.keys():
+            propertys += '/** \n *' + columns[key][1] + ' \n */ \n'
+            if key == 'id':
+                propertys += '@NotNull(message = "' + key + '不能为空\")\n'
+            propertys += 'private %s %s;' % (columns[key][0], key) + '\n\n'
+    c = {'package': package + '.dto',
+         'entity_package': package + '.dto.' + class_name,
+         'class_name': class_name + 'DTO',
+         'propertys': propertys,
+         'date': date
+         }
+    s = render_template('entity_templates.html', **c)
+    create_java_file("Update"+class_name + 'DTO', package + '.dto', s)
 
 
 def create_page(class_name, package, date):
@@ -218,6 +238,7 @@ def create_service(class_name, package, date):
          'dto_package': package + '.dto.' + class_name + 'DTO',
          'page_dto': class_name + 'PageDTO',
          'page_entity': package + '.dto.' + class_name + 'PageDTO',
+         'update_package': package + '.dto.' + "Update" + class_name + 'DTO',
          'base_page': base_page
          }
     s = render_template('service_templates.html', **c)
@@ -236,6 +257,7 @@ def create_service_impl(class_name, package, date):
          'vo_package': package + '.vo.' + class_name + 'VO',
          'dto_package': package + '.dto.' + class_name + 'DTO',
          'page_entity': package + '.dto.' + class_name + 'PageDTO',
+         'update_package': package + '.dto.' + "Update" + class_name + 'DTO',
          'base_page': base_page
          }
     s = render_template('service_templates_impl.html', **c)
@@ -254,6 +276,7 @@ def create_controller(class_name, package, date):
          'date': date,
          'vo_package': package + '.vo.' + class_name + 'VO',
          'dto_package': package + '.dto.' + class_name + 'DTO',
+         'update_package': package + '.dto.' + "Update" + class_name + 'DTO',
          'page_entity': package + '.dto.' + class_name + 'PageDTO',
          'base_page': base_page}
     s = render_template('controller_templates.html', **c)

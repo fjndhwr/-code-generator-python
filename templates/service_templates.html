@@ -4,6 +4,7 @@ import {{ entity_package }};
 import {{ vo_package }};
 import {{ dto_package }};
 import {{ page_entity }};
+import {{ update_package }};
 import {{ base_page }}.base.PageData;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public interface {{ class_name }}Service {
 	 * @since V1.0
 	 * @param {{ small_class_name }}
 	 */
-	 {{ class_name }}DTO update({{ class_name }}DTO {{ small_class_name }});
+	 {{ class_name }}DTO update(Update{{ class_name }}DTO {{ small_class_name }});
 
     /**
 	 * @Description: 批量删除

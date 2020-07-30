@@ -15,7 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import {{ vo_package }};
 import {{ dto_package }};
 import {{ page_entity }};
-
+import {{ update_package }};
 
 /**
  * @author hwr
@@ -51,7 +51,7 @@ public class {{ class_name }}Controller {
 	 * @param {{ small_class_name }}
 	 */
 	@PostMapping(value = "/update" )
-    public BaseResponse update(@RequestBody @Valid {{ class_name }}DTO {{ small_class_name }}){
+    public BaseResponse update(@RequestBody @Valid Update{{ class_name }}DTO {{ small_class_name }}){
 		return baseApiService.setResultSuccess({{ small_class_name }}Service.update({{ small_class_name }}));
     }
 
