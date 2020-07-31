@@ -121,10 +121,11 @@ def create_DTO(class_name, package, columns, date):
     if columns:
         for key in columns.keys():
             propertys += '/** \n *' + columns[key][1] + ' \n */ \n'
-            if columns[key][0] == 'String':
-                propertys += '@NotBlank(message = "' + key + '不能为空\")\n'
-            else:
-                propertys += '@NotNull(message = "' + key + '不能为空\")\n'
+            if key != 'id':
+                if columns[key][0] == 'String':
+                    propertys += '@NotBlank(message = "' + key + '不能为空\")\n'
+                else:
+                    propertys += '@NotNull(message = "' + key + '不能为空\")\n'
             propertys += 'private %s %s;' % (columns[key][0], key) + '\n\n'
     c = {'package': package + '.dto',
          'entity_package': package + '.dto.' + class_name,
@@ -165,6 +166,14 @@ def create_page(class_name, package, date):
     create_java_file(class_name + 'PageDTO', package + '.dto', s)
 
 
+def create_md(class_name, package, date):
+    c = {'title': title,
+         'small_class_name': small_str(class_name),
+         'date': date}
+    s = render_template('page_templates.html', **c)
+    create_java_file(class_name + 'PageDTO', package + '.dto', s)
+
+
 # 创建Dao
 def create_dao(class_name, package, date):
     c = {'package': package + '.dao',
@@ -172,6 +181,7 @@ def create_dao(class_name, package, date):
          'small_class_name': small_str(class_name),
          'entity_package': package + '.entity.' + class_name,
          'date': date,
+         'update_package': package + '.dto.' + "Update" + class_name + 'DTO',
          'vo_package': package + '.vo.' + class_name + 'VO',
          'dto_package': package + '.dto.' + class_name + 'DTO'
          }

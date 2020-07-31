@@ -4,6 +4,7 @@
 * [修改](#3)
 * [列表](#4)
 * [分页](#5)
+* [通过id查找](#5)
 
 ##### 作者：黄文榕
 ##### 时间：{{ date }}
@@ -64,10 +65,10 @@ date:
 
 <h2 id="2">删除</h2>
 
-- 新增
+- 删除
 
 ##### 请求URL
-- `/{{ title }}/{{ small_class_name }}/save `
+- `/{{ title }}/{{ small_class_name }}/delete `
 
 ##### 请求方式
 - POST
@@ -76,13 +77,11 @@ date:
 
 |参数名|必选|类型|说明|
 |:----    |:---|:----- |-----   |
-|username |是  |string |用户名   |
-|password |是  |string | 密码    |
-|name     |否  |string | 昵称    |
+|ids |是  |list |id列表   |
 
 ##### 请求示例
 ```
-{}
+{ [1,2,3]}
 ```
 
 ##### 返回参数说明
@@ -93,11 +92,6 @@ date:
 |msg| String|返回消息|
 |data| Json |数据|
 
-date:
-
-|参数名|类型|说明|
-|---|---|---|
-
 
 ##### 返回示例
 
@@ -105,17 +99,15 @@ date:
  {
     "code": 200,
     "msg": "操作成功!",
-    "data": [
-        ]
     }
 ```
 
 <h2 id="3">修改</h2>
 
-- 新增
+- 修改
 
 ##### 请求URL
-- `/{{ title }}/{{ small_class_name }}/save `
+- `/{{ title }}/{{ small_class_name }}/update `
 
 ##### 请求方式
 - POST
@@ -160,10 +152,10 @@ date:
 
 <h2 id="4">列表</h2>
 
-- 新增
+- 列表
 
 ##### 请求URL
-- `/{{ title }}/{{ small_class_name }}/save `
+- `/{{ title }}/{{ small_class_name }}/list `
 
 ##### 请求方式
 - POST
@@ -208,10 +200,59 @@ date:
 
 <h2 id="5">分页</h2>
 
-- 新增
+- 分页
 
 ##### 请求URL
-- `/{{ title }}/{{ small_class_name }}/save `
+- `/{{ title }}/{{ small_class_name }}/page `
+
+##### 请求方式
+- POST
+
+##### 参数
+
+|参数名|必选|类型|说明|
+|:----    |:---|:----- |-----   |
+|username |是  |string |用户名   |
+|password |是  |string | 密码    |
+|name     |否  |string | 昵称    |
+
+##### 请求示例
+```
+{}
+```
+
+##### 返回参数说明
+
+|参数名|类型|说明|
+|---|---|---|
+|code |Integer   |返回码|
+|msg| String|返回消息|
+|data| Json |数据|
+
+date:
+
+|参数名|类型|说明|
+|---|---|---|
+
+
+##### 返回示例
+
+```
+ {
+    "code": 200,
+    "msg": "操作成功!",
+    "data": [
+        ]
+    }
+```
+
+
+<h2 id="6">通过Id查找</h2>
+
+- 通过Id查找
+
+##### 请求URL
+- `/{{ title }}/{{ small_class_name }}/findById `
 
 ##### 请求方式
 - POST

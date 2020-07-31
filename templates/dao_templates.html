@@ -6,6 +6,7 @@ import java.lang.annotation.*;
 import {{ entity_package }};
 import {{ vo_package }};
 import {{ dto_package }};
+import {{ update_package }};
 import java.util.List;
 
 
@@ -38,7 +39,7 @@ public interface {{ class_name }}Dao{
 	 * @since V1.0
 	 * @param {{ small_class_name }}
 	 */
-	 void update({{ class_name }}DTO {{ small_class_name }});
+	 void update(Update{{ class_name }}DTO {{ small_class_name }});
 
     /**
 	 * @Description: 批量删除
