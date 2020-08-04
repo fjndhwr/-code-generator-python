@@ -8,7 +8,7 @@
         {{ column_ }}
     </sql>
 
-    <select id="findById" parameterType="java.lang.String" resultType="{{ vo_package }}">
+    <select id="findById" parameterType="java.lang.Long " resultType="{{ vo_package }}">
         select
             <include refid="AllColumn"/>
         from

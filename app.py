@@ -137,6 +137,20 @@ def create_DTO(class_name, package, columns, date):
     create_java_file(class_name + 'DTO', package + '.dto', s)
 
 
+def create_md(class_name, package, columns, date):
+    insert = ""
+    if columns:
+        for key in columns.keys():
+            if key != 'id':
+               insert
+
+    c = {'title': title,
+         'small_class_name': small_str(class_name),
+         'date': date}
+    s = render_template('page_templates.html', **c)
+    create_java_file(class_name + 'PageDTO', package + '.dto', s)
+
+
 # 创建entity
 def create_UPDATE_DTO(class_name, package, columns, date):
     propertys = ''
@@ -148,7 +162,7 @@ def create_UPDATE_DTO(class_name, package, columns, date):
             propertys += 'private %s %s;' % (columns[key][0], key) + '\n\n'
     c = {'package': package + '.dto',
          'entity_package': package + '.dto.' + class_name,
-         'class_name': class_name + 'DTO',
+         'class_name': "Update" + class_name + 'DTO',
          'propertys': propertys,
          'date': date
          }
@@ -165,13 +179,6 @@ def create_page(class_name, package, date):
     s = render_template('page_templates.html', **c)
     create_java_file(class_name + 'PageDTO', package + '.dto', s)
 
-
-def create_md(class_name, package, date):
-    c = {'title': title,
-         'small_class_name': small_str(class_name),
-         'date': date}
-    s = render_template('page_templates.html', **c)
-    create_java_file(class_name + 'PageDTO', package + '.dto', s)
 
 
 # 创建Dao
