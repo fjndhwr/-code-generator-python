@@ -65,6 +65,9 @@ def create_class():
             create_UPDATE_DTO(table, package, column, d)
             create_page(table, package, d)
             print('--- create DTO class')
+        MD = request.form
+        if MD and len(MD) >= 1:
+            create_md(table, package, column, d)
         dao = request.form.get('dao')
         if dao and len(dao) >= 1:
             print('--- create dao class')
@@ -139,16 +142,30 @@ def create_DTO(class_name, package, columns, date):
 
 def create_md(class_name, package, columns, date):
     insert = ""
+    update = ""
+    result = ""
+    json = "{\n"
     if columns:
         for key in columns.keys():
+            json += "   \"" + key + "\":" + "\"\"\n"
+            result += "|" + key + "| N |" + columns[key][0] + "|" + columns[key][1] + "|\n"
             if key != 'id':
-               insert
+                insert += "|" + key + "| Y |" + columns[key][0] + "|" + columns[key][1] + "|\n"
+                update += "|" + key + "| N |" + columns[key][0] + "|" + columns[key][1] + "|\n"
+            else:
+                update += "|" + key + "| Y |" + columns[key][0] + "|" + columns[key][1] + "|\n"
+
+    json += "}\n"
 
     c = {'title': title,
          'small_class_name': small_str(class_name),
-         'date': date}
-    s = render_template('page_templates.html', **c)
-    create_java_file(class_name + 'PageDTO', package + '.dto', s)
+         'date': date,
+         "json": json,
+         "insert": insert,
+         "update": update,
+         "result": result}
+    s = render_template('md_templates.html', **c)
+    create_java_file(class_name, package + '.md', s, '.md')
 
 
 # 创建entity
