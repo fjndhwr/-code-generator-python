@@ -1,11 +1,11 @@
 mysql:
-  db_name: returnable_robot
-  host: 192.168.8.93
-  port: 32578
+  db_name: new_skin_wechat_service_test
+  host: 192.168.8.92
+  port: 3306
   user: root
-  password: XMlianluoyimysql!!!
+  password: XMLLYsupersecret!!
 
-pre_package: cn.xmlly.returnablerobot.
+pre_package: cn.xmlly.cluespool.
 base_page: cn.xmlly.common
 title: wechat_api
 path: D:/temp/python/
